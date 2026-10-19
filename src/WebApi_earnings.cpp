@@ -8,6 +8,7 @@
 #include "WebApi_errors.h"
 #include "TotalLimitController.h"
 #include "defaults.h"
+#include "PowerHistory.h"
 #include <Hoymiles.h>
 #include <AsyncJson.h>
 
@@ -17,6 +18,7 @@ void WebApiEarningsClass::init(AsyncWebServer& server, Scheduler& scheduler)
 
     server.on("/api/earnings/config", HTTP_GET, static_cast<ArRequestHandlerFunction>(std::bind(&WebApiEarningsClass::onEarningsGet, this, _1)));
     server.on("/api/earnings/config", HTTP_POST, static_cast<ArRequestHandlerFunction>(std::bind(&WebApiEarningsClass::onEarningsPost, this, _1)));
+    server.on("/api/history/today", HTTP_GET, static_cast<ArRequestHandlerFunction>(std::bind(&WebApiEarningsClass::onHistoryGet, this, _1)));
     server.on("/api/totallimit/config", HTTP_POST, static_cast<ArRequestHandlerFunction>(std::bind(&WebApiEarningsClass::onTotalLimitPost, this, _1)));
 }
 
@@ -123,5 +125,28 @@ void WebApiEarningsClass::onTotalLimitPost(AsyncWebServerRequest* request)
 
     TotalLimitController.reset(serial);
     WebApi.writeConfig(retMsg);
+    WebApi.sendJsonResponse(request, response, __FUNCTION__, __LINE__);
+}
+
+void WebApiEarningsClass::onHistoryGet(AsyncWebServerRequest* request)
+{
+    if (!WebApi.checkCredentialsReadonly(request)) {
+        return;
+    }
+
+    AsyncJsonResponse* response = new AsyncJsonResponse();
+    auto& root = response->getRoot();
+    root["interval"] = POWER_HISTORY_INTERVAL_MIN;
+    root["current"] = PowerHistory.getCurrentSlot();
+    JsonArray values = root["values"].to<JsonArray>();
+    for (uint16_t i = 0; i < POWER_HISTORY_SLOTS; i++) {
+        const int16_t v = PowerHistory.getSlot(i);
+        if (v < 0) {
+            values.add(nullptr);
+        } else {
+            values.add(v);
+        }
+    }
+
     WebApi.sendJsonResponse(request, response, __FUNCTION__, __LINE__);
 }

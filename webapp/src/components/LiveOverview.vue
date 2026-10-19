@@ -51,6 +51,8 @@
             </div>
         </section>
 
+        <DayChart :limit="hasTotalLimit ? limitWatt : 0" />
+
         <section class="tsl-card">
             <div class="tsl-card-head">
                 <h2>{{ $t('tesla.EarningsTitle') }}</h2>
@@ -100,13 +102,14 @@
 </template>
 
 <script lang="ts">
+import DayChart from '@/components/DayChart.vue';
 import PowerGauge from '@/components/PowerGauge.vue';
 import type { Inverter, Total } from '@/types/LiveDataStatus';
 import { authHeader, handleResponse } from '@/utils/authentication';
 import { defineComponent, type PropType } from 'vue';
 
 export default defineComponent({
-    components: { PowerGauge },
+    components: { DayChart, PowerGauge },
     props: {
         totalData: { type: Object as PropType<Total>, required: true },
         inverters: { type: Array as PropType<Inverter[]>, required: true },

@@ -12,4 +12,5 @@ private:
     void onEarningsGet(AsyncWebServerRequest* request);
     void onEarningsPost(AsyncWebServerRequest* request);
     void onTotalLimitPost(AsyncWebServerRequest* request);
+    void onHistoryGet(AsyncWebServerRequest* request);
 };

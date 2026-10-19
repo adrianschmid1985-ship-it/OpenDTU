@@ -757,6 +757,11 @@
         "TotalLimitSaved": "Total limit saved, active within seconds",
         "TotalLimitOff": "Total limit switched off. The last limit sent stays active until the inverter restarts.",
         "InvalidLimit": "Please enter a value between 0 and 2250 W (0 = off)",
-        "NotConnected": "Not connected"
+        "NotConnected": "Not connected",
+        "ProductionToday": "Production today",
+        "PeakToday": "Peak",
+        "ChartAria": "Today's production curve, peak {peak} watts",
+        "ChartEmpty": "The curve is recorded from the next sunrise or since the last restart.",
+        "ChartScale": "Scale up to {max} W"
     }
 }

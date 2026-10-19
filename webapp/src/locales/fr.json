@@ -757,6 +757,11 @@
         "TotalLimitSaved": "Limite totale enregistrée, active dans quelques secondes",
         "TotalLimitOff": "Limite totale désactivée. La dernière limite envoyée reste active jusqu'au redémarrage de l'onduleur.",
         "InvalidLimit": "Veuillez saisir une valeur entre 0 et 2250 W (0 = arrêt)",
-        "NotConnected": "Non raccordé"
+        "NotConnected": "Non raccordé",
+        "ProductionToday": "Production du jour",
+        "PeakToday": "Pic",
+        "ChartAria": "Courbe de production du jour, pic {peak} watts",
+        "ChartEmpty": "La courbe est enregistrée dès le prochain lever du soleil ou depuis le dernier redémarrage.",
+        "ChartScale": "Échelle jusqu'à {max} W"
     }
 }
