@@ -96,7 +96,7 @@ export default defineComponent({
         },
     },
     mounted() {
-        this.storedTheme = localStorage.getItem('theme') || 'auto';
+        this.storedTheme = localStorage.getItem('theme') || 'dark';
         this.setTheme(this.getPreferredTheme());
         this.showActiveTheme(this.getPreferredTheme());
 

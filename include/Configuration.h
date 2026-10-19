@@ -153,6 +153,10 @@ struct CONFIG_T {
     } Security;
 
     struct {
+        double PricePerKwh;
+    } Earnings;
+
+    struct {
         bool PowerSafe;
         bool ScreenSaver;
         uint8_t Rotation;

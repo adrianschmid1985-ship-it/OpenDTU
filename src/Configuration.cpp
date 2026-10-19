@@ -116,6 +116,9 @@ bool ConfigurationClass::write()
     security["password"] = config.Security.Password;
     security["allow_readonly"] = config.Security.AllowReadonly;
 
+    JsonObject earnings = doc["earnings"].to<JsonObject>();
+    earnings["price_per_kwh"] = config.Earnings.PricePerKwh;
+
     JsonObject device = doc["device"].to<JsonObject>();
     device["pinmapping"] = config.Dev_PinMapping;
 
@@ -304,6 +307,9 @@ bool ConfigurationClass::read()
     JsonObject security = doc["security"];
     strlcpy(config.Security.Password, security["password"] | ACCESS_POINT_PASSWORD, sizeof(config.Security.Password));
     config.Security.AllowReadonly = security["allow_readonly"] | SECURITY_ALLOW_READONLY;
+
+    JsonObject earnings = doc["earnings"];
+    config.Earnings.PricePerKwh = earnings["price_per_kwh"] | EARNINGS_PRICE_PER_KWH;
 
     JsonObject device = doc["device"];
     strlcpy(config.Dev_PinMapping, device["pinmapping"] | DEV_PINMAPPING, sizeof(config.Dev_PinMapping));

@@ -64,3 +64,122 @@ div.card-tabbed {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+// ---------------------------------------------------------------------------
+// Tesla style theme (dark first, calm surfaces, large numbers)
+// ---------------------------------------------------------------------------
+:root {
+    --tsl-accent: #f2b13d;
+    --tsl-ok: #3dd68c;
+    --tsl-radius: 18px;
+    --bs-body-font-family: 'Segoe UI Variable', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', system-ui, sans-serif;
+    --bs-border-radius: 12px;
+    --bs-border-radius-lg: 16px;
+}
+
+[data-bs-theme='dark'] {
+    --bs-body-bg: #0a0a0b;
+    --bs-body-bg-rgb: 10, 10, 11;
+    --bs-body-color: #f4f4f5;
+    --bs-secondary-color: #a1a3a8;
+    --bs-tertiary-bg: #121315;
+    --bs-tertiary-bg-rgb: 18, 19, 21;
+    --bs-secondary-bg: #18191c;
+    --bs-border-color: #1f2023;
+    --bs-emphasis-color: #ffffff;
+    --tsl-surface: #121315;
+    --tsl-surface-2: #18191c;
+    --tsl-track: #26272b;
+    --tsl-muted: #a1a3a8;
+}
+
+[data-bs-theme='light'] {
+    --tsl-surface: #ffffff;
+    --tsl-surface-2: #f3f4f6;
+    --tsl-track: #e4e5e8;
+    --tsl-muted: #5f6368;
+    --bs-body-bg: #f6f7f8;
+}
+
+body {
+    letter-spacing: 0.005em;
+}
+
+.navbar.fixed-top {
+    background: rgba(10, 10, 11, 0.85) !important;
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid #1c1d20;
+}
+
+.navbar-brand span {
+    letter-spacing: 0.22em;
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.page-header h1 {
+    font-size: 1.1rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--tsl-muted);
+    font-weight: 500;
+}
+
+.card {
+    background: var(--tsl-surface);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--tsl-radius);
+    overflow: hidden;
+}
+
+.card > .card-header {
+    background: transparent;
+    border-bottom: 1px solid var(--bs-border-color);
+    font-weight: 600;
+}
+
+.card > .card-header.text-bg-primary,
+.card > .card-header.text-bg-success,
+.card > .card-header.text-bg-secondary,
+.card > .card-header.text-bg-info {
+    background: transparent !important;
+    color: var(--bs-body-color) !important;
+}
+
+.btn {
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.btn-primary {
+    --bs-btn-bg: #f4f4f5;
+    --bs-btn-border-color: #f4f4f5;
+    --bs-btn-color: #0a0a0b;
+    --bs-btn-hover-bg: #ffffff;
+    --bs-btn-hover-border-color: #ffffff;
+    --bs-btn-hover-color: #0a0a0b;
+    --bs-btn-active-bg: #d9dadc;
+    --bs-btn-active-color: #0a0a0b;
+}
+
+[data-bs-theme='light'] .btn-primary {
+    --bs-btn-bg: #111214;
+    --bs-btn-border-color: #111214;
+    --bs-btn-color: #ffffff;
+    --bs-btn-hover-bg: #2a2b2f;
+    --bs-btn-hover-color: #ffffff;
+}
+
+.form-control,
+.form-select {
+    border-radius: 10px;
+}
+
+.tsl-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--tsl-muted);
+    font-weight: 500;
+}

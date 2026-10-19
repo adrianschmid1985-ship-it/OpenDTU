@@ -112,3 +112,5 @@
 #define MAX_INVERTER_LIMIT 2250
 
 #define LANG_PACK_SUFFIX ".lang.json"
+
+#define EARNINGS_PRICE_PER_KWH 0.0
