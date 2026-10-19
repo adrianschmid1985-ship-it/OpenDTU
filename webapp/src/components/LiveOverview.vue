@@ -44,7 +44,8 @@
                 }}</span>
                 <span class="tsl-tile-value" v-if="limitWatt > 0">
                     {{ $n(limitWatt, 'decimalNoDigits') }}
-                    <small>W · {{ $n(limitPercent, 'decimalNoDigits') }} %</small>
+                    <small v-if="hasTotalLimit">W</small>
+                    <small v-else>W · {{ $n(limitPercent, 'decimalNoDigits') }} %</small>
                 </span>
                 <span class="tsl-tile-value" v-else>–</span>
             </div>
@@ -142,7 +143,7 @@ export default defineComponent({
             let sum = 0;
             this.inverters.forEach((inv) => {
                 if (inv.limit_absolute > 0 && inv.limit_relative > 0) {
-                    sum += (inv.limit_absolute * 100) / inv.limit_relative;
+                    sum += Math.round((inv.limit_absolute * 100) / inv.limit_relative / 10) * 10;
                 }
             });
             return sum > 0 ? sum : Math.max(this.totalPower * 1.25, 800);

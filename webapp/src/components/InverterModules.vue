@@ -14,13 +14,14 @@
         >
     </div>
     <div class="tsl-modules" v-if="modules.length">
-        <div class="tsl-module" v-for="m in modules" :key="m.key">
+        <div class="tsl-module" :class="{ unused: m.unused }" v-for="m in modules" :key="m.key">
             <span class="tsl-module-name">{{ m.name }}</span>
             <span class="tsl-module-power">{{ $n(Math.round(m.power), 'decimalNoDigits') }} <small>W</small></span>
             <div class="tsl-module-bar">
                 <div :style="{ width: m.share + '%' }"></div>
             </div>
-            <span class="tsl-module-sub">
+            <span class="tsl-module-sub" v-if="m.unused">{{ $t('tesla.NotConnected') }}</span>
+            <span class="tsl-module-sub" v-else>
                 {{ m.voltage }} · {{ m.current }} · {{ m.yieldDay }} {{ $t('tesla.Today').toLowerCase() }}
             </span>
         </div>
@@ -61,6 +62,7 @@ export default defineComponent({
                     key: k,
                     name: ch.name?.u || this.$t('tesla.Module', { n: k + 1 }),
                     power,
+                    unused: (ch.Voltage?.v || 0) < 8 && power < 1,
                     share: Math.min(100, (power / ref) * 100),
                     voltage: ch.Voltage ? this.fmt(ch.Voltage) : '–',
                     current: ch.Current ? this.fmt(ch.Current) : '–',
@@ -102,6 +104,9 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+.tsl-module.unused {
+    opacity: 0.45;
 }
 .tsl-module-name,
 .tsl-module-sub {

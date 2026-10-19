@@ -756,6 +756,7 @@
         "TotalLimitStatus": "Ziel {target} W, aktuell an den Wechselrichter gesendet: {sent} W",
         "TotalLimitSaved": "Gesamtlimit gespeichert, wird in wenigen Sekunden aktiv",
         "TotalLimitOff": "Gesamtlimit ausgeschaltet. Das zuletzt gesendete Limit bleibt bis zum Neustart des Wechselrichters aktiv.",
-        "InvalidLimit": "Bitte einen Wert zwischen 0 und 2250 W eingeben (0 = aus)"
+        "InvalidLimit": "Bitte einen Wert zwischen 0 und 2250 W eingeben (0 = aus)",
+        "NotConnected": "Nicht belegt"
     }
 }

@@ -756,6 +756,7 @@
         "TotalLimitStatus": "Objectif {target} W, envoyé à l'onduleur : {sent} W",
         "TotalLimitSaved": "Limite totale enregistrée, active dans quelques secondes",
         "TotalLimitOff": "Limite totale désactivée. La dernière limite envoyée reste active jusqu'au redémarrage de l'onduleur.",
-        "InvalidLimit": "Veuillez saisir une valeur entre 0 et 2250 W (0 = arrêt)"
+        "InvalidLimit": "Veuillez saisir une valeur entre 0 et 2250 W (0 = arrêt)",
+        "NotConnected": "Non raccordé"
     }
 }
