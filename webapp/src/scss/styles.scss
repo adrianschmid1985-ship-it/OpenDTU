@@ -161,6 +161,9 @@ body {
     --bs-btn-hover-color: #0a0a0b;
     --bs-btn-active-bg: #d9dadc;
     --bs-btn-active-color: #0a0a0b;
+    --bs-btn-disabled-bg: #3a3c42;
+    --bs-btn-disabled-border-color: #3a3c42;
+    --bs-btn-disabled-color: #a1a3a8;
 }
 
 [data-bs-theme='light'] .btn-primary {

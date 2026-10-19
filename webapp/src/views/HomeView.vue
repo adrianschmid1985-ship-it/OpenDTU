@@ -8,7 +8,7 @@
         @reload="reloadData"
     >
         <HintView :hints="liveData.hints" />
-        <InverterTotalInfo :totalData="liveData.total" /><br />
+        <LiveOverview :totalData="liveData.total" :inverters="inverterData" :isLogged="isLogged" />
         <div class="row gy-3">
             <div class="col-sm-3 col-md-2" :style="[inverterData.length == 1 ? { display: 'none' } : {}]">
                 <div
@@ -74,18 +74,13 @@
                     tabindex="0"
                 >
                     <div class="card">
-                        <div
-                            class="card-header d-flex justify-content-between align-items-center"
-                            :class="{
-                                'text-bg-tertiary': !inverter.poll_enabled,
-                                'text-bg-danger': inverter.poll_enabled && !inverter.reachable,
-                                'text-bg-warning': inverter.poll_enabled && inverter.reachable && !inverter.producing,
-                                'text-bg-success': inverter.poll_enabled && inverter.reachable && inverter.producing,
-                            }"
-                        >
+                        <div class="card-header tsl-inv-head d-flex justify-content-between align-items-center">
                             <div class="p-1 flex-grow-1">
-                                <div class="d-flex flex-wrap">
-                                    <div style="padding-right: 2em">
+                                <div class="d-flex flex-wrap align-items-center">
+                                    <span class="tsl-status" :class="statusClass(inverter)">
+                                        <span class="tsl-status-dot"></span>{{ statusText(inverter) }}
+                                    </span>
+                                    <div class="tsl-inv-name" style="padding-right: 2em">
                                         {{ inverter.name }}
                                     </div>
                                     <div style="padding-right: 2em">
@@ -174,6 +169,19 @@
                             </div>
                         </div>
                         <div class="card-body">
+                            <InverterModules :inverter="inverter" />
+
+                            <button
+                                class="btn btn-link tsl-details-toggle"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                :data-bs-target="'#details-' + inverter.serial"
+                                aria-expanded="false"
+                                :aria-controls="'details-' + inverter.serial"
+                            >
+                                {{ $t('tesla.AllValues') }}
+                            </button>
+                            <div class="collapse" :id="'details-' + inverter.serial">
                             <div class="row flex-row-reverse flex-wrap-reverse g-3">
                                 <template
                                     v-for="chanType in [
@@ -211,6 +219,8 @@
                                         </template>
                                     </template>
                                 </template>
+                            </div>
+
                             </div>
 
                             <BootstrapAlert class="m-3" :show="!inverter.hasOwnProperty('INV')">
@@ -524,7 +534,8 @@ import EventLog from '@/components/EventLog.vue';
 import GridProfile from '@/components/GridProfile.vue';
 import HintView from '@/components/HintView.vue';
 import InverterChannelInfo from '@/components/InverterChannelInfo.vue';
-import InverterTotalInfo from '@/components/InverterTotalInfo.vue';
+import InverterModules from '@/components/InverterModules.vue';
+import LiveOverview from '@/components/LiveOverview.vue';
 import { LimitType } from '@/types/LimitConfig';
 import ModalDialog from '@/components/ModalDialog.vue';
 import type { DevInfoStatus } from '@/types/DevInfoStatus';
@@ -561,7 +572,8 @@ export default defineComponent({
         GridProfile,
         HintView,
         InverterChannelInfo,
-        InverterTotalInfo,
+        InverterModules,
+        LiveOverview,
         ModalDialog,
         BIconArrowCounterclockwise,
         BIconBroadcast,
@@ -683,6 +695,18 @@ export default defineComponent({
     },
     methods: {
         isLoggedIn,
+        statusClass(inv: Inverter): string {
+            if (!inv.poll_enabled) return 'tsl-status-off';
+            if (!inv.reachable) return 'tsl-status-offline';
+            if (!inv.producing) return 'tsl-status-idle';
+            return 'tsl-status-ok';
+        },
+        statusText(inv: Inverter): string {
+            if (!inv.poll_enabled) return this.$t('tesla.StatusDisabled');
+            if (!inv.reachable) return this.$t('tesla.StatusOffline');
+            if (!inv.producing) return this.$t('tesla.StatusIdle');
+            return this.$t('tesla.StatusProducing');
+        },
         getInitialData(triggerLoading: boolean = true) {
             if (triggerLoading) {
                 this.dataLoading = true;
@@ -953,6 +977,73 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.tsl-inv-head {
+    background: transparent;
+    gap: 8px;
+    font-weight: 400 !important;
+    color: var(--tsl-muted);
+    font-size: 14px;
+}
+.tsl-inv-head .flex-wrap > div {
+    padding: 2px 0;
+}
+.tsl-inv-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--bs-body-color);
+    flex-basis: 100%;
+    order: -1;
+    margin: 6px 0 2px;
+}
+.tsl-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-right: 14px;
+    order: -2;
+}
+.tsl-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+}
+.tsl-status-ok {
+    background: rgba(61, 214, 140, 0.14);
+    color: #3dd68c;
+}
+.tsl-status-idle {
+    background: rgba(242, 177, 61, 0.14);
+    color: #f2b13d;
+}
+.tsl-status-offline {
+    background: rgba(255, 99, 99, 0.14);
+    color: #ff7b7b;
+}
+.tsl-status-off {
+    background: rgba(161, 163, 168, 0.14);
+    color: #a1a3a8;
+}
+.tsl-inv-head .btn-toolbar .btn {
+    background: var(--tsl-surface-2);
+    border: 1px solid var(--bs-border-color);
+    color: var(--bs-body-color);
+    min-width: 44px;
+    min-height: 44px;
+}
+.tsl-inv-head .btn-toolbar .btn:hover:not(:disabled) {
+    border-color: var(--tsl-muted);
+}
+.tsl-details-toggle {
+    color: var(--tsl-muted);
+    text-decoration: none;
+    padding: 12px 0;
+    font-weight: 500;
+}
 .btn-group {
     border-radius: var(--bs-border-radius);
     margin-top: 0.25rem;
