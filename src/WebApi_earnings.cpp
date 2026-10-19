@@ -7,6 +7,7 @@
 #include "WebApi.h"
 #include "WebApi_errors.h"
 #include "TotalLimitController.h"
+#include "defaults.h"
 #include <Hoymiles.h>
 #include <AsyncJson.h>
 
