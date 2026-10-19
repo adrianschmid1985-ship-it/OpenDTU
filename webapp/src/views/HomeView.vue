@@ -182,45 +182,44 @@
                                 {{ $t('tesla.AllValues') }}
                             </button>
                             <div class="collapse" :id="'details-' + inverter.serial">
-                            <div class="row flex-row-reverse flex-wrap-reverse g-3">
-                                <template
-                                    v-for="chanType in [
-                                        { obj: inverter.INV, name: 'INV' },
-                                        { obj: inverter.AC, name: 'AC' },
-                                        { obj: inverter.DC, name: 'DC' },
-                                    ].reverse()"
-                                >
-                                    <template v-if="chanType.obj != null">
-                                        <template
-                                            v-for="channel in Object.keys(chanType.obj)
-                                                .sort()
-                                                .reverse()
-                                                .map((x) => +x)"
-                                            :key="channel"
-                                        >
+                                <div class="row flex-row-reverse flex-wrap-reverse g-3">
+                                    <template
+                                        v-for="chanType in [
+                                            { obj: inverter.INV, name: 'INV' },
+                                            { obj: inverter.AC, name: 'AC' },
+                                            { obj: inverter.DC, name: 'DC' },
+                                        ].reverse()"
+                                    >
+                                        <template v-if="chanType.obj != null">
                                             <template
-                                                v-if="
-                                                    chanType.name != 'DC' ||
-                                                    (chanType.name == 'DC' && getSumIrridiation(inverter) == 0) ||
-                                                    (chanType.name == 'DC' &&
-                                                        getSumIrridiation(inverter) > 0 &&
-                                                        chanType.obj[channel]?.Irradiation?.max) ||
-                                                    0 > 0
-                                                "
+                                                v-for="channel in Object.keys(chanType.obj)
+                                                    .sort()
+                                                    .reverse()
+                                                    .map((x) => +x)"
+                                                :key="channel"
                                             >
-                                                <div class="col" v-if="chanType.obj[channel]">
-                                                    <InverterChannelInfo
-                                                        :channelData="chanType.obj[channel]"
-                                                        :channelType="chanType.name"
-                                                        :channelNumber="channel"
-                                                    />
-                                                </div>
+                                                <template
+                                                    v-if="
+                                                        chanType.name != 'DC' ||
+                                                        (chanType.name == 'DC' && getSumIrridiation(inverter) == 0) ||
+                                                        (chanType.name == 'DC' &&
+                                                            getSumIrridiation(inverter) > 0 &&
+                                                            chanType.obj[channel]?.Irradiation?.max) ||
+                                                        0 > 0
+                                                    "
+                                                >
+                                                    <div class="col" v-if="chanType.obj[channel]">
+                                                        <InverterChannelInfo
+                                                            :channelData="chanType.obj[channel]"
+                                                            :channelType="chanType.name"
+                                                            :channelNumber="channel"
+                                                        />
+                                                    </div>
+                                                </template>
                                             </template>
                                         </template>
                                     </template>
-                                </template>
-                            </div>
-
+                                </div>
                             </div>
 
                             <BootstrapAlert class="m-3" :show="!inverter.hasOwnProperty('INV')">

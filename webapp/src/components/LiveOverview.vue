@@ -9,7 +9,12 @@
                 </div>
                 <span class="tsl-hero-sub">
                     <template v-if="limitWatt > 0">
-                        {{ $t('tesla.OfLimit', { percent: $n(limitShare, 'decimalNoDigits'), limit: $n(limitWatt, 'decimalNoDigits') }) }}
+                        {{
+                            $t('tesla.OfLimit', {
+                                percent: $n(limitShare, 'decimalNoDigits'),
+                                limit: $n(limitWatt, 'decimalNoDigits'),
+                            })
+                        }}
                         ·
                     </template>
                     {{ $t('tesla.InvertersOnline', { online: onlineCount, total: inverters.length }) }}
@@ -35,7 +40,8 @@
             <div class="tsl-tile">
                 <span class="tsl-tile-label">{{ $t('tesla.PowerLimit') }}</span>
                 <span class="tsl-tile-value" v-if="limitWatt > 0">
-                    {{ $n(limitWatt, 'decimalNoDigits') }} <small>W · {{ $n(limitPercent, 'decimalNoDigits') }} %</small>
+                    {{ $n(limitWatt, 'decimalNoDigits') }}
+                    <small>W · {{ $n(limitPercent, 'decimalNoDigits') }} %</small>
                 </span>
                 <span class="tsl-tile-value" v-else>–</span>
             </div>

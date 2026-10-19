@@ -1,9 +1,17 @@
 <template>
     <div class="tsl-inv-meta" v-if="ac || inv">
-        <span v-if="ac?.Voltage">AC <strong>{{ fmt(ac.Voltage) }}</strong></span>
-        <span v-if="ac?.Frequency">{{ $t('tesla.Frequency') }} <strong>{{ fmt(ac.Frequency) }}</strong></span>
-        <span v-if="inv?.Temperature">{{ $t('tesla.Temperature') }} <strong>{{ fmt(inv.Temperature) }}</strong></span>
-        <span v-if="inv?.Efficiency">{{ $t('tesla.Efficiency') }} <strong>{{ fmt(inv.Efficiency) }}</strong></span>
+        <span v-if="ac?.Voltage"
+            >AC <strong>{{ fmt(ac.Voltage) }}</strong></span
+        >
+        <span v-if="ac?.Frequency"
+            >{{ $t('tesla.Frequency') }} <strong>{{ fmt(ac.Frequency) }}</strong></span
+        >
+        <span v-if="inv?.Temperature"
+            >{{ $t('tesla.Temperature') }} <strong>{{ fmt(inv.Temperature) }}</strong></span
+        >
+        <span v-if="inv?.Efficiency"
+            >{{ $t('tesla.Efficiency') }} <strong>{{ fmt(inv.Efficiency) }}</strong></span
+        >
     </div>
     <div class="tsl-modules" v-if="modules.length">
         <div class="tsl-module" v-for="m in modules" :key="m.key">
@@ -40,9 +48,7 @@ export default defineComponent({
             const keys = Object.keys(dc)
                 .map((k) => +k)
                 .sort((a, b) => a - b);
-            const list = keys
-                .map((k) => ({ k, ch: dc[k] as InverterStatistics }))
-                .filter((x) => x.ch);
+            const list = keys.map((k) => ({ k, ch: dc[k] as InverterStatistics })).filter((x) => x.ch);
             const maxPower = Math.max(
                 1,
                 ...list.map((x) => x.ch.Irradiation?.max || 0),
@@ -65,9 +71,7 @@ export default defineComponent({
     },
     methods: {
         fmt(o: ValueObject): string {
-            return (
-                this.$n(o.v, 'decimal', { minimumFractionDigits: o.d, maximumFractionDigits: o.d }) + ' ' + o.u
-            );
+            return this.$n(o.v, 'decimal', { minimumFractionDigits: o.d, maximumFractionDigits: o.d }) + ' ' + o.u;
         },
     },
 });
