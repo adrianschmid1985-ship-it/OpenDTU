@@ -762,6 +762,7 @@
         "PeakToday": "Peak",
         "ChartAria": "Today's production curve, peak {peak} watts",
         "ChartEmpty": "The curve is recorded from the next sunrise or since the last restart.",
-        "ChartScale": "Scale up to {max} W"
+        "ChartScale": "Scale up to {max} W",
+        "OfMax": "max. {max} W"
     }
 }

@@ -762,6 +762,7 @@
         "PeakToday": "Spitze",
         "ChartAria": "Verlauf der Produktion heute, Spitze {peak} Watt",
         "ChartEmpty": "Der Verlauf wird ab dem nächsten Sonnenaufgang bzw. seit dem letzten Neustart aufgezeichnet.",
-        "ChartScale": "Skala bis {max} W"
+        "ChartScale": "Skala bis {max} W",
+        "OfMax": "max. {max} W"
     }
 }

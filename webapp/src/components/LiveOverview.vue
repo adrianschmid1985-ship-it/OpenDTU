@@ -1,32 +1,13 @@
 <template>
     <div class="tsl-overview">
         <section class="tsl-hero">
-            <div class="tsl-hero-text">
-                <span class="tsl-label">{{ $t('tesla.CurrentProduction') }}</span>
-                <div class="tsl-hero-value">
-                    <span class="tsl-big">{{ $n(Math.round(totalPower), 'decimalNoDigits') }}</span>
-                    <span class="tsl-big-unit">W</span>
-                </div>
-                <span class="tsl-hero-sub">
-                    <template v-if="limitWatt > 0">
-                        {{
-                            $t('tesla.OfLimit', {
-                                percent: $n(limitShare, 'decimalNoDigits'),
-                                limit: $n(limitWatt, 'decimalNoDigits'),
-                            })
-                        }}
-                        ·
-                    </template>
-                    {{ $t('tesla.InvertersOnline', { online: onlineCount, total: inverters.length }) }}
-                </span>
-            </div>
+            <span class="tsl-label">{{ $t('tesla.CurrentProduction') }}</span>
             <div class="tsl-hero-gauge">
                 <PowerGauge :value="totalPower" :max="maxPower" :limit="limitWatt" />
-                <div class="tsl-gauge-legend" v-if="limitWatt > 0">
-                    <span class="tsl-legend-mark"></span
-                    >{{ hasTotalLimit ? $t('tesla.TotalLimit') : $t('tesla.LimitMarker') }}
-                </div>
             </div>
+            <span class="tsl-hero-sub">
+                {{ $t('tesla.InvertersOnline', { online: onlineCount, total: inverters.length }) }}
+            </span>
         </section>
 
         <section class="tsl-kpis">
@@ -37,17 +18,6 @@
             <div class="tsl-tile">
                 <span class="tsl-tile-label">{{ $t('tesla.YieldTotal') }}</span>
                 <span class="tsl-tile-value">{{ $n(yieldTotalKwh, 'decimalNoDigits') }} <small>kWh</small></span>
-            </div>
-            <div class="tsl-tile">
-                <span class="tsl-tile-label">{{
-                    hasTotalLimit ? $t('tesla.TotalLimit') : $t('tesla.PowerLimit')
-                }}</span>
-                <span class="tsl-tile-value" v-if="limitWatt > 0">
-                    {{ $n(limitWatt, 'decimalNoDigits') }}
-                    <small v-if="hasTotalLimit">W</small>
-                    <small v-else>W · {{ $n(limitPercent, 'decimalNoDigits') }} %</small>
-                </span>
-                <span class="tsl-tile-value" v-else>–</span>
             </div>
         </section>
 
@@ -233,60 +203,23 @@ export default defineComponent({
 }
 .tsl-hero {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    padding: 8px 4px 0;
-}
-.tsl-hero-text {
-    flex: 1 1 320px;
-    display: flex;
     flex-direction: column;
-    gap: 8px;
-}
-.tsl-hero-value {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-}
-.tsl-big {
-    font-size: clamp(64px, 12vw, 108px);
-    font-weight: 200;
-    line-height: 1;
-    letter-spacing: -0.03em;
-    font-feature-settings: 'tnum';
-}
-.tsl-big-unit {
-    font-size: 30px;
-    color: var(--tsl-muted);
+    align-items: center;
+    gap: 6px;
+    padding: 4px 0 8px;
+    text-align: center;
 }
 .tsl-hero-sub {
     color: var(--tsl-muted);
-    font-size: 15px;
+    font-size: 14px;
 }
 .tsl-hero-gauge {
-    flex: 0 1 360px;
     width: 100%;
-}
-.tsl-gauge-legend {
-    text-align: center;
-    color: var(--tsl-muted);
-    font-size: 12px;
-    margin-top: -6px;
-}
-.tsl-legend-mark {
-    display: inline-block;
-    width: 14px;
-    height: 3px;
-    border-radius: 2px;
-    background: #ff7a45;
-    vertical-align: middle;
-    margin-right: 6px;
+    max-width: 400px;
 }
 .tsl-kpis {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 14px;
 }
 .tsl-tile,

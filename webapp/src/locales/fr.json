@@ -762,6 +762,7 @@
         "PeakToday": "Pic",
         "ChartAria": "Courbe de production du jour, pic {peak} watts",
         "ChartEmpty": "La courbe est enregistrée dès le prochain lever du soleil ou depuis le dernier redémarrage.",
-        "ChartScale": "Échelle jusqu'à {max} W"
+        "ChartScale": "Échelle jusqu'à {max} W",
+        "OfMax": "max. {max} W"
     }
 }
