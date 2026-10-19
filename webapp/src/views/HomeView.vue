@@ -171,6 +171,8 @@
                         <div class="card-body">
                             <InverterModules :inverter="inverter" />
 
+                            <TotalLimitPanel :inverter="inverter" :isLogged="isLogged" />
+
                             <button
                                 class="btn btn-link tsl-details-toggle"
                                 type="button"
@@ -535,6 +537,7 @@ import HintView from '@/components/HintView.vue';
 import InverterChannelInfo from '@/components/InverterChannelInfo.vue';
 import InverterModules from '@/components/InverterModules.vue';
 import LiveOverview from '@/components/LiveOverview.vue';
+import TotalLimitPanel from '@/components/TotalLimitPanel.vue';
 import { LimitType } from '@/types/LimitConfig';
 import ModalDialog from '@/components/ModalDialog.vue';
 import type { DevInfoStatus } from '@/types/DevInfoStatus';
@@ -573,6 +576,7 @@ export default defineComponent({
         InverterChannelInfo,
         InverterModules,
         LiveOverview,
+        TotalLimitPanel,
         ModalDialog,
         BIconArrowCounterclockwise,
         BIconBroadcast,

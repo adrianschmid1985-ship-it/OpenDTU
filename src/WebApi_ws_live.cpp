@@ -159,6 +159,8 @@ void WebApiWsLiveClass::generateInverterCommonJsonResponse(JsonObject& root, std
     } else {
         root["limit_absolute"] = -1;
     }
+    root["total_limit"] = inv_cfg->TotalLimit;
+    root["shade_compensation"] = inv_cfg->ShadeCompensation;
     root["radio_stats"]["tx_request"] = inv->RadioStats.TxRequestData;
     root["radio_stats"]["tx_re_request"] = inv->RadioStats.TxReRequestFragment;
     root["radio_stats"]["rx_success"] = inv->RadioStats.RxSuccess;

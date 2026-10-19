@@ -11,4 +11,5 @@ public:
 private:
     void onEarningsGet(AsyncWebServerRequest* request);
     void onEarningsPost(AsyncWebServerRequest* request);
+    void onTotalLimitPost(AsyncWebServerRequest* request);
 };

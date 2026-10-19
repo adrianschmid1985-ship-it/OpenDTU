@@ -746,6 +746,16 @@
         "Frequency": "Fréquence",
         "Temperature": "Température",
         "Efficiency": "Rendement",
-        "Module": "Module {n}"
+        "Module": "Module {n}",
+        "TotalLimit": "Limite totale",
+        "TotalLimitHint": "Limite l'injection totale. OpenDTU ajuste en continu la limite de l'onduleur pour que les entrées libres et l'ombre ne coûtent pas de puissance.",
+        "Active": "Active",
+        "Off": "Arrêt",
+        "MaxOutput": "Injection maximale",
+        "ShadeCompensation": "Compenser l'ombre (bref dépassement possible)",
+        "TotalLimitStatus": "Objectif {target} W, envoyé à l'onduleur : {sent} W",
+        "TotalLimitSaved": "Limite totale enregistrée, active dans quelques secondes",
+        "TotalLimitOff": "Limite totale désactivée. La dernière limite envoyée reste active jusqu'au redémarrage de l'onduleur.",
+        "InvalidLimit": "Veuillez saisir une valeur entre 0 et 2250 W (0 = arrêt)"
     }
 }

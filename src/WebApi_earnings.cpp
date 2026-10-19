@@ -6,6 +6,8 @@
 #include "Configuration.h"
 #include "WebApi.h"
 #include "WebApi_errors.h"
+#include "TotalLimitController.h"
+#include <Hoymiles.h>
 #include <AsyncJson.h>
 
 void WebApiEarningsClass::init(AsyncWebServer& server, Scheduler& scheduler)
@@ -14,6 +16,7 @@ void WebApiEarningsClass::init(AsyncWebServer& server, Scheduler& scheduler)
 
     server.on("/api/earnings/config", HTTP_GET, static_cast<ArRequestHandlerFunction>(std::bind(&WebApiEarningsClass::onEarningsGet, this, _1)));
     server.on("/api/earnings/config", HTTP_POST, static_cast<ArRequestHandlerFunction>(std::bind(&WebApiEarningsClass::onEarningsPost, this, _1)));
+    server.on("/api/totallimit/config", HTTP_POST, static_cast<ArRequestHandlerFunction>(std::bind(&WebApiEarningsClass::onTotalLimitPost, this, _1)));
 }
 
 void WebApiEarningsClass::onEarningsGet(AsyncWebServerRequest* request)
@@ -63,6 +66,61 @@ void WebApiEarningsClass::onEarningsPost(AsyncWebServerRequest* request)
         guard.getConfig().Earnings.PricePerKwh = price;
     }
 
+    WebApi.writeConfig(retMsg);
+    WebApi.sendJsonResponse(request, response, __FUNCTION__, __LINE__);
+}
+
+void WebApiEarningsClass::onTotalLimitPost(AsyncWebServerRequest* request)
+{
+    if (!WebApi.checkCredentials(request)) {
+        return;
+    }
+
+    AsyncJsonResponse* response = new AsyncJsonResponse();
+    JsonDocument root;
+    if (!WebApi.parseRequestData(request, response, root)) {
+        return;
+    }
+
+    auto& retMsg = response->getRoot();
+
+    if (!(root["serial"].is<String>() && root["total_limit"].is<uint32_t>() && root["shade_compensation"].is<bool>())) {
+        retMsg["message"] = "Values are missing!";
+        retMsg["code"] = WebApiError::GenericValueMissing;
+        WebApi.sendJsonResponse(request, response, __FUNCTION__, __LINE__);
+        return;
+    }
+
+    const uint64_t serial = strtoull(root["serial"].as<String>().c_str(), NULL, 16);
+    const uint32_t limit = root["total_limit"].as<uint32_t>();
+    if (limit > MAX_INVERTER_LIMIT) {
+        retMsg["message"] = "Limit out of range!";
+        retMsg["code"] = WebApiError::GenericValueMissing;
+        WebApi.sendJsonResponse(request, response, __FUNCTION__, __LINE__);
+        return;
+    }
+
+    bool found = false;
+    {
+        auto guard = Configuration.getWriteGuard();
+        auto& config = guard.getConfig();
+        for (uint8_t i = 0; i < INV_MAX_COUNT; i++) {
+            if (config.Inverter[i].Serial == serial && serial != 0) {
+                config.Inverter[i].TotalLimit = limit;
+                config.Inverter[i].ShadeCompensation = root["shade_compensation"].as<bool>();
+                found = true;
+            }
+        }
+    }
+
+    if (!found) {
+        retMsg["message"] = "Invalid inverter specified!";
+        retMsg["code"] = WebApiError::GenericValueMissing;
+        WebApi.sendJsonResponse(request, response, __FUNCTION__, __LINE__);
+        return;
+    }
+
+    TotalLimitController.reset(serial);
     WebApi.writeConfig(retMsg);
     WebApi.sendJsonResponse(request, response, __FUNCTION__, __LINE__);
 }

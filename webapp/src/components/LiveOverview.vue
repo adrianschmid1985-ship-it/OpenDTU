@@ -23,7 +23,8 @@
             <div class="tsl-hero-gauge">
                 <PowerGauge :value="totalPower" :max="maxPower" :limit="limitWatt" />
                 <div class="tsl-gauge-legend" v-if="limitWatt > 0">
-                    <span class="tsl-legend-mark"></span>{{ $t('tesla.LimitMarker') }}
+                    <span class="tsl-legend-mark"></span
+                    >{{ hasTotalLimit ? $t('tesla.TotalLimit') : $t('tesla.LimitMarker') }}
                 </div>
             </div>
         </section>
@@ -38,7 +39,9 @@
                 <span class="tsl-tile-value">{{ $n(yieldTotalKwh, 'decimalNoDigits') }} <small>kWh</small></span>
             </div>
             <div class="tsl-tile">
-                <span class="tsl-tile-label">{{ $t('tesla.PowerLimit') }}</span>
+                <span class="tsl-tile-label">{{
+                    hasTotalLimit ? $t('tesla.TotalLimit') : $t('tesla.PowerLimit')
+                }}</span>
                 <span class="tsl-tile-value" v-if="limitWatt > 0">
                     {{ $n(limitWatt, 'decimalNoDigits') }}
                     <small>W · {{ $n(limitPercent, 'decimalNoDigits') }} %</small>
@@ -145,11 +148,16 @@ export default defineComponent({
             return sum > 0 ? sum : Math.max(this.totalPower * 1.25, 800);
         },
         limitWatt(): number {
+            // a configured total limit wins over the limit sent to the inverter
             let sum = 0;
             this.inverters.forEach((inv) => {
-                if (inv.limit_absolute > 0) sum += inv.limit_absolute;
+                if (inv.total_limit > 0) sum += inv.total_limit;
+                else if (inv.limit_absolute > 0) sum += inv.limit_absolute;
             });
             return sum;
+        },
+        hasTotalLimit(): boolean {
+            return this.inverters.some((i) => i.total_limit > 0);
         },
         limitPercent(): number {
             return this.maxPower > 0 ? (this.limitWatt / this.maxPower) * 100 : 0;

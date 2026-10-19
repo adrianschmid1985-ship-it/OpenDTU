@@ -58,6 +58,8 @@ struct INVERTER_CONFIG_T {
     bool ZeroYieldDayOnMidnight;
     bool ClearEventlogOnMidnight;
     bool YieldDayCorrection;
+    uint16_t TotalLimit; // 0 = off, else max AC output in W regulated by TotalLimitController
+    bool ShadeCompensation;
     CHANNEL_CONFIG_T channel[INV_MAX_CHAN_COUNT];
 };
 

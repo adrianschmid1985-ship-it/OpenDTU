@@ -7,6 +7,7 @@
 #include "Display_Graphic.h"
 #include "I18n.h"
 #include "InverterSettings.h"
+#include "TotalLimitController.h"
 #include "Led_Single.h"
 #include "Logging.h"
 #include "MessageOutput.h"
@@ -124,6 +125,7 @@ void setup()
     LedSingle.init(scheduler);
 
     InverterSettings.init(scheduler);
+    TotalLimitController.init(scheduler);
 
     Datastore.init(scheduler);
     RestartHelper.init(scheduler);

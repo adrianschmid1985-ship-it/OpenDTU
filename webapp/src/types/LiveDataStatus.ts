@@ -42,6 +42,8 @@ export interface Inverter {
     producing: boolean;
     limit_relative: number;
     limit_absolute: number;
+    total_limit: number;
+    shade_compensation: boolean;
     events: number;
     AC: InverterStatistics[];
     DC: InverterStatistics[];

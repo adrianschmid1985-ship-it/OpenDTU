@@ -152,6 +152,8 @@ bool ConfigurationClass::write()
         inv["zero_day"] = config.Inverter[i].ZeroYieldDayOnMidnight;
         inv["clear_eventlog"] = config.Inverter[i].ClearEventlogOnMidnight;
         inv["yieldday_correction"] = config.Inverter[i].YieldDayCorrection;
+        inv["total_limit"] = config.Inverter[i].TotalLimit;
+        inv["shade_compensation"] = config.Inverter[i].ShadeCompensation;
 
         JsonArray channel = inv["channel"].to<JsonArray>();
         for (uint8_t c = 0; c < INV_MAX_CHAN_COUNT; c++) {
@@ -345,6 +347,8 @@ bool ConfigurationClass::read()
         config.Inverter[i].ZeroYieldDayOnMidnight = inv["zero_day"] | false;
         config.Inverter[i].ClearEventlogOnMidnight = inv["clear_eventlog"] | false;
         config.Inverter[i].YieldDayCorrection = inv["yieldday_correction"] | false;
+        config.Inverter[i].TotalLimit = inv["total_limit"] | 0;
+        config.Inverter[i].ShadeCompensation = inv["shade_compensation"] | true;
 
         JsonArray channel = inv["channel"];
         for (uint8_t c = 0; c < INV_MAX_CHAN_COUNT; c++) {
@@ -518,6 +522,8 @@ void ConfigurationClass::deleteInverterById(const uint8_t id)
     config.Inverter[id].ReachableThreshold = REACHABLE_THRESHOLD;
     config.Inverter[id].ZeroRuntimeDataIfUnrechable = false;
     config.Inverter[id].ZeroYieldDayOnMidnight = false;
+    config.Inverter[id].TotalLimit = 0;
+    config.Inverter[id].ShadeCompensation = true;
     config.Inverter[id].YieldDayCorrection = false;
 
     for (uint8_t c = 0; c < INV_MAX_CHAN_COUNT; c++) {

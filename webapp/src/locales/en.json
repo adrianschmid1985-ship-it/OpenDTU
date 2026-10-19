@@ -746,6 +746,16 @@
         "Frequency": "Frequency",
         "Temperature": "Temperature",
         "Efficiency": "Efficiency",
-        "Module": "Module {n}"
+        "Module": "Module {n}",
+        "TotalLimit": "Total limit",
+        "TotalLimitHint": "Limits the total feed in. OpenDTU keeps adjusting the inverter limit so unused inputs and shade do not cost power.",
+        "Active": "Active",
+        "Off": "Off",
+        "MaxOutput": "Maximum output",
+        "ShadeCompensation": "Compensate shade (short overshoot possible)",
+        "TotalLimitStatus": "Target {target} W, currently sent to the inverter: {sent} W",
+        "TotalLimitSaved": "Total limit saved, active within seconds",
+        "TotalLimitOff": "Total limit switched off. The last limit sent stays active until the inverter restarts.",
+        "InvalidLimit": "Please enter a value between 0 and 2250 W (0 = off)"
     }
 }
